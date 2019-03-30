@@ -1,0 +1,11 @@
+﻿
+@model int?
+<div class="row">
+    <div class="col-6">
+        <a href="@Url.Action("Edit", new { @Id = Model })" class="btn btn-info form-control">Edit</a>
+    </div>
+    <div class="col-6">
+        <a class="btn btn-success form-control" href="@Url.Action("Index")">Back to list</a>
+    </div>
+</div>
+

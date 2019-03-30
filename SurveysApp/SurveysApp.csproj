@@ -140,10 +140,15 @@
     <Compile Include="Migrations\201903300544251_AddCategoryToDatabase.Designer.cs">
       <DependentUpon>201903300544251_AddCategoryToDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903301756370_AddUserToDatabase.cs" />
+    <Compile Include="Migrations\201903301756370_AddUserToDatabase.Designer.cs">
+      <DependentUpon>201903301756370_AddUserToDatabase.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
     <Compile Include="Models\Forms\UserLoginViewModel.cs" />
+    <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\CustomPrincipal.cs" />
@@ -262,6 +267,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201903300544251_AddCategoryToDatabase.resx">
       <DependentUpon>201903300544251_AddCategoryToDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903301756370_AddUserToDatabase.resx">
+      <DependentUpon>201903301756370_AddUserToDatabase.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

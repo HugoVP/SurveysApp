@@ -15,5 +15,6 @@ namespace SurveysApp.Models
         }
 
         public virtual DbSet<Category> Category { get; set; }
+        public virtual DbSet<User> User { get; set; }
     }
 }

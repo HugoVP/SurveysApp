@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SurveysApp.Security;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,7 +11,8 @@ namespace SurveysApp.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            //return View();
+            return RedirectToAction("Index", "Survey", new { area = "Respondent" });
         }
 
         public ActionResult About()

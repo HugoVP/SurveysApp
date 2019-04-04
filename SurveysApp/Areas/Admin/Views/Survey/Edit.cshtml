@@ -1,0 +1,126 @@
+﻿@model SurveysApp.Forms.SurveyCategoriesViewModel
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var categorySelectListItems = from category
+                                  in Model.CategoryList
+                                  select new SelectListItem
+                                  {
+                                      Value = category.Id.ToString(),
+                                      Text = category.Name,
+                                  };
+    var index = 0;
+
+}
+<br />
+<h2 class="text-info">Edit Survey</h2>
+<br />
+
+
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    Html.RenderPartial("_StatusMessagePartial", TempData["StatusMessage"]);
+}
+
+
+@using (Html.BeginForm("Edit", "Survey", FormMethod.Post, new { @class = "mt-4" }))
+{
+    @Html.AntiForgeryToken()
+    @*@Html.HiddenFor(m => m.Survey.AdminId, new { Value = 0 })*@
+    @Html.HiddenFor(m => m.Survey.Id)
+
+    <div class="backgroundWhite border">
+        <div class="form-group row">
+            <div class="col-2 text-right">
+                @Html.LabelFor(m => m.Survey.Name)
+            </div>
+            <div class="col-5">
+                @Html.EditorFor(m => m.Survey.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            @Html.ValidationMessageFor(m => m.Survey.Name, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2 text-right">
+                @Html.LabelFor(m => m.Survey.CategoryId)
+            </div>
+            <div class="col-5">
+                @Html.DropDownListFor(m => m.Survey.CategoryId, categorySelectListItems, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2 text-right">
+                @Html.LabelFor(m => m.Survey.Status)
+            </div>
+            <div class="col-5">
+                @*@Html.DropDownListFor(m => m.Survey.CategoryId, categorySelectListItems, new { @class = "form-control" })*@
+                @Html.EnumDropDownListFor(m => m.Survey.Status, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <hr />
+
+        <div id="QuestionsContainer">
+
+
+            @foreach (var question in Model.Survey.Questions)
+            {
+                <div class="form-group row">
+                    @Html.Hidden($"Survey.Questions[{index}].Id", question.Id)
+                    @Html.Hidden($"Survey.Questions[{index}].SurveyId", question.SurveyId)
+
+                    <div class="col-2 text-right">
+                        @Html.Label($"Survey.Question[{index}].Id", "Question " + (index + 1))
+                    </div>
+                    <div class="col-5">
+
+                        @Html.Editor($"Survey.Questions[{index}].Content", new { htmlAttributes = new { Value = question.Content, @class = "form-control" } })
+                        @Html.ValidationMessage($"Survey.Questions[{index}].Content", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="col-2">
+                        <div class="btn-group" role="group">
+
+                            <a class="btn btn-danger text-white" href="@Url.Action("DeleteQuestion", new { @id = question.Id })">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                index += 1;
+            }
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <div class="row">
+                    <div class="col-4">
+                        <input type="submit" value="Edit" class="btn btn-info form-control" />
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-info form-control" href="@Url.Action("AddQuestion", new { surveyId = Model.Survey.Id })">Add Question</a>
+                    </div>
+                    <div class="col-4">
+                        <a class="btn btn-success form-control" href="@Url.Action("Index")">To List</a>
+
+                    </div>
+                </div>
+                @*@{ Html.RenderPartial("_EditAndBackToListButton"); }*@
+            </div>
+        </div>
+    </div>
+}
+
+

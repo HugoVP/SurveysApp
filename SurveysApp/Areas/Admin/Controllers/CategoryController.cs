@@ -10,6 +10,7 @@ using System.Web.Mvc;
 namespace SurveysApp.Areas.Admin.Controllers
 {
     //[Authorize]
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
 
@@ -39,8 +40,19 @@ namespace SurveysApp.Areas.Admin.Controllers
                 return View(category);
             }
 
+            var doesCategoryExistsInDatabase =
+                await _db.Category.Where(m=>m.Name==category.Name).CountAsync();
+
+            if (doesCategoryExistsInDatabase > 0)
+            {
+                TempData["StatusMessage"]="Error - Category already exists, use another name";
+                return View(category );
+            }
+
             _db.Category.Add(category);
             await _db.SaveChangesAsync();
+
+            TempData["StatusMessage"] = "Category created successfully";
 
             return RedirectToAction(nameof(Index));
         }
@@ -85,6 +97,8 @@ namespace SurveysApp.Areas.Admin.Controllers
             //_db.Update(category);
             await _db.SaveChangesAsync();
 
+            TempData["StatusMessage"] = "Category edited successfully";
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -118,9 +132,19 @@ namespace SurveysApp.Areas.Admin.Controllers
                 return HttpNotFound();
             }
 
+            var surveysWithThisCategory = await _db.Survey.Where(m=>m.CategoryId==category.Id).ToListAsync();
+
+            if (surveysWithThisCategory.Count() > 0)
+            {
+                TempData["StatusMessage"] = "Error - This category cannot be deleted because it has one or more surveys associated";
+                return RedirectToAction( "Delete", new { id = category.Id});
+            }
+
             _db.Category.Remove(category);
 
             await _db.SaveChangesAsync();
+
+            TempData["StatusMessage"] = "Category removed successfully";
 
             return RedirectToAction(nameof(Index));
         }

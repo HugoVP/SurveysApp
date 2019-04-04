@@ -1,0 +1,55 @@
+﻿@model SurveysApp.Forms.SurveyCategoryQuestionViewModel
+@using SurveysApp.Models
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var categorySelectListItems = from category
+                                  in Model.CategoryList
+                                  select new SelectListItem
+                                  {
+                                      Value = category.Id.ToString(),
+                                      Text = category.Name,
+                                  };
+
+}
+<br />
+<h2 class="text-info">Create New Survey</h2>
+<br />
+
+
+@using (Html.BeginForm("Create", "Survey", FormMethod.Post, new { @class = "mt-4" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="backgroundWhite border">
+        <div class="form-group row">
+            <div class="col-2 text-right">
+                @Html.LabelFor(m => m.Survey.Name)
+            </div>
+            <div class="col-5">
+                @Html.EditorFor(m => m.Survey.Name, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+
+            @Html.ValidationMessageFor(m => m.Survey.Name, null, new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2 text-right">
+                @Html.LabelFor(m => m.Survey.CategoryId)
+            </div>
+            <div class="col-5">
+                @Html.DropDownListFor(m => m.Survey.CategoryId, categorySelectListItems, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                @{ Html.RenderPartial("_CreateAndBackToListButton"); }
+            </div>
+        </div>
+    </div>
+}

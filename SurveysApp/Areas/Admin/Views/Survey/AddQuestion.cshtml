@@ -1,0 +1,96 @@
+﻿@*@model SurveysApp.Models.Survey*@
+
+@model SurveysApp.Forms.SurveyQuestionViewModel
+@{
+    ViewBag.Title = "Add Question";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{ int questionIndex = 0; }
+
+<br />
+<h2 class="text-info">Add Question</h2>
+<br />
+
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    Html.RenderPartial("_StatusMessagePartial", TempData["StatusMessage"]);
+}
+
+<div class="backgroundWhite border row">
+    <div class="col-6 border-right">
+        @using (Html.BeginForm("AddQuestion", "Survey", FormMethod.Post, new { @class = "mt-4" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group row">
+                <div class="col-3 text-right">
+                    @Html.LabelFor(m => m.Survey.Name)
+                </div>
+                <div class="col-9">
+                    @Html.EditorFor(m => m.Survey.Name, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-3 text-right">
+                    @Html.LabelFor(m => m.Survey.CategoryId)
+                </div>
+                <div class="col-9">
+                    @Html.EditorFor(m => m.Survey.Category.Name, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                </div>
+            </div>
+
+            <div class="form-group row">
+                @Html.HiddenFor(m => m.Question.SurveyId)
+
+
+                <div class="col-3 text-right">
+                    @Html.LabelFor(m => m.Question.Content, "New Question")
+                </div>
+                <div class="col-9">
+
+                    @Html.EditorFor(m => m.Question.Content, new { htmlAttributes = new { @class = "form-control", autofocus = true } })
+                    @Html.ValidationMessageFor(m => m.Question.Content, null, new { @class = "text-danger" })
+                </div>
+
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-9 offset-3">
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="submit" value="Create" class="btn btn-info form-control" />
+                        </div>
+                        <div class="col-4">
+                            <a class="btn btn-success form-control" href="@Url.Action("Edit", new { id = Model.Survey.Id })">To Survey</a>
+                        </div>
+                        <div class="col-4">
+                            <a class="btn btn-success form-control" href="@Url.Action("Index")">To List</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-6">
+        @if (Model.Survey.Questions.Count() > 0)
+        {
+            <p>Existing Questions</p>
+
+            <div id="SubCategoryList">
+                <ul class="list-group">
+                    @foreach (var question in Model.Survey.Questions.ToList())
+                    {
+                        <li class="list-group-item">@question.Content</li>
+                    }
+                </ul>
+            </div>
+
+        }
+    </div>
+</div>

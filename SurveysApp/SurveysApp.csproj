@@ -60,8 +60,14 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -131,8 +137,15 @@
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Areas\Admin\Controllers\CategoryController.cs" />
     <Compile Include="Areas\Admin\Controllers\SurveyController.cs" />
+    <Compile Include="Areas\API\APIAreaRegistration.cs" />
+    <Compile Include="Areas\API\Controllers\SurveyController.cs" />
+    <Compile Include="Areas\Respondent\Controllers\AuthenticationController.cs" />
+    <Compile Include="Areas\Respondent\Controllers\SurveyController.cs" />
     <Compile Include="Areas\Respondent\RespondentAreaRegistration.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Forms\SurveyAndAnswerListViewModel.cs" />
+    <Compile Include="Forms\SurveyCategoriesViewModel.cs" />
+    <Compile Include="Forms\SurveyQuestionViewModel.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -144,10 +157,34 @@
     <Compile Include="Migrations\201903301756370_AddUserToDatabase.Designer.cs">
       <DependentUpon>201903301756370_AddUserToDatabase.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201903301830001_AddSurveyToDatabase.cs" />
+    <Compile Include="Migrations\201903301830001_AddSurveyToDatabase.Designer.cs">
+      <DependentUpon>201903301830001_AddSurveyToDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903301908272_AddQuestionToDatabase.cs" />
+    <Compile Include="Migrations\201903301908272_AddQuestionToDatabase.Designer.cs">
+      <DependentUpon>201903301908272_AddQuestionToDatabase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201903310230229_SetSurveyStatusTypeAsEStatus.cs" />
+    <Compile Include="Migrations\201903310230229_SetSurveyStatusTypeAsEStatus.Designer.cs">
+      <DependentUpon>201903310230229_SetSurveyStatusTypeAsEStatus.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904020551070_AddAnswerToDatabase_.cs" />
+    <Compile Include="Migrations\201904020551070_AddAnswerToDatabase_.designer.cs">
+      <DependentUpon>201904020551070_AddAnswerToDatabase_.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201904031959268_AddUniqueIndexToCategoryAndUser.cs" />
+    <Compile Include="Migrations\201904031959268_AddUniqueIndexToCategoryAndUser.Designer.cs">
+      <DependentUpon>201904031959268_AddUniqueIndexToCategoryAndUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Category.cs" />
-    <Compile Include="Models\Forms\UserLoginViewModel.cs" />
+    <Compile Include="Forms\SurveyCategoryQuestionViewModel.cs" />
+    <Compile Include="Forms\UserSignInViewModel.cs" />
+    <Compile Include="Forms\UserLoginViewModel.cs" />
+    <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -192,9 +229,23 @@
     <Content Include="Areas\Admin\Views\Category\Create.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Survey\Index.cshtml" />
-    <Content Include="Areas\Respondent\Views\web.config" />
     <Content Include="Areas\Admin\Views\Category\Delete.cshtml" />
     <Content Include="Areas\Admin\Views\Category\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Create.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\AddQuestion.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\DeleteQuestion.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\Delete.cshtml" />
+    <Content Include="Areas\Respondent\Views\web.config" />
+    <Content Include="Areas\Respondent\Views\Authentication\Register.cshtml" />
+    <Content Include="Areas\Respondent\Views\Authentication\Login.cshtml" />
+    <Content Include="Areas\Respondent\Views\Survey\Index.cshtml" />
+    <Content Include="Areas\Respondent\Views\Survey\Answering.cshtml" />
+    <Content Include="Areas\Respondent\Views\Survey\Answered.cshtml" />
+    <Content Include="Areas\Respondent\Views\Survey\Details.cshtml" />
+    <Content Include="Areas\API\Views\web.config" />
+    <Content Include="Areas\Admin\Views\Survey\Details.cshtml" />
+    <Content Include="Areas\Admin\Views\Survey\DetailsByUser.cshtml" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
@@ -206,6 +257,8 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\mustache.js" />
+    <Content Include="Scripts\mustache.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -243,14 +296,19 @@
     <Content Include="Views\Shared\_EditAndBackToListButton.cshtml" />
     <Content Include="Views\Shared\_DeleteAndBackToListButton.cshtml" />
     <Content Include="Views\Shared\_DetailsAndBackToListButton.cshtml" />
+    <Content Include="Views\Shared\_StatusMessagePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
-    <Folder Include="Areas\Respondent\Controllers\" />
+    <Folder Include="Areas\API\Models\" />
+    <Folder Include="Areas\API\Views\Shared\" />
+    <Folder Include="Areas\API\Views\Survey\" />
     <Folder Include="Areas\Respondent\Models\" />
     <Folder Include="Areas\Respondent\Views\Shared\" />
+    <Folder Include="Views\Api\" />
+    <Folder Include="_db\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -270,6 +328,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201903301756370_AddUserToDatabase.resx">
       <DependentUpon>201903301756370_AddUserToDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903301830001_AddSurveyToDatabase.resx">
+      <DependentUpon>201903301830001_AddSurveyToDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903301908272_AddQuestionToDatabase.resx">
+      <DependentUpon>201903301908272_AddQuestionToDatabase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201903310230229_SetSurveyStatusTypeAsEStatus.resx">
+      <DependentUpon>201903310230229_SetSurveyStatusTypeAsEStatus.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904020551070_AddAnswerToDatabase_.resx">
+      <DependentUpon>201904020551070_AddAnswerToDatabase_.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201904031959268_AddUniqueIndexToCategoryAndUser.resx">
+      <DependentUpon>201904031959268_AddUniqueIndexToCategoryAndUser.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

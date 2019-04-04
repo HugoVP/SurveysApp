@@ -18,6 +18,11 @@ namespace SurveysApp.Migrations
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
             //  to avoid creating duplicate seed data.
+            context.Category.AddOrUpdate(c => c.Id,
+                new Models.Category() { Id = 1,  Name = "Education" },
+                new Models.Category() { Id = 2, Name = "Deportes" },
+                new Models.Category() { Id = 3, Name = "Politica" }
+            );
         }
     }
 }

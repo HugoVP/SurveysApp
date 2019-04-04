@@ -6,6 +6,11 @@
 
 <br />
 <br />
+
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    Html.RenderPartial("_StatusMessagePartial", TempData["StatusMessage"]);
+}
 <div class="border backgroundWhite">
     <div class="row">
         <div class="col-6">
@@ -33,11 +38,13 @@
                 {
                     <tr>
                         <td>@Html.DisplayFor(m => item.Name)</td>
-                        <td>@{
-                            Html.RenderPartial("_TableButtonPartial", item.Id);
-                         }</td>
-                    </tr>
-                }
+                        <td>
+                            @{
+                                Html.RenderPartial("_TableButtonPartial", item.Id);
+                        }
+                    </td>
+                </tr>
+            }
             </table>
         }
     </div>

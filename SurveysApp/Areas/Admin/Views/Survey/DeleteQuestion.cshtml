@@ -1,0 +1,77 @@
+﻿@model SurveysApp.Models.Question
+@{
+    ViewBag.Title = "DeleteQuestion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h2 class="text-info">Delete Question</h2>
+<br />
+
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    Html.RenderPartial("_StatusMessagePartial", TempData["StatusMessage"]);
+}
+
+<div class="backgroundWhite border row">
+    <div class="col-12">
+        @using (Html.BeginForm("DeleteQuestion", "Survey", FormMethod.Post, new { @class = "mt-4" }))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-group row">
+                <div class="col-2 text-right">
+                    @Html.LabelFor(m => m.Survey.Name)
+                </div>
+                <div class="col-5">
+                    @Html.EditorFor(m => m.Survey.Name, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+                </div>
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-2 text-right">
+                    @Html.LabelFor(m => m.Survey.CategoryId)
+                </div>
+                <div class="col-5">
+                    @Html.EditorFor(m => m.Survey.Category.Name, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                </div>
+            </div>
+
+
+
+            <div class="form-group row">
+                @Html.HiddenFor(m => m.SurveyId)
+
+                <div class="col-2 text-right">
+                    @Html.LabelFor(m => m.Content, "New Question")
+                </div>
+                <div class="col-5">
+
+                    @Html.EditorFor(m => m.Content, new { htmlAttributes = new { @class = "form-control", @disabled = true } })
+                </div>
+
+
+            </div>
+
+            <div class="form-group row">
+                <div class="col-5 offset-2">
+                    <div class="row">
+                        <div class="col-4">
+                            <input type="submit" value="Delete" class="btn btn-danger form-control" />
+                        </div>
+                        <div class="col-4">
+                            <a class="btn btn-success form-control" href="@Url.Action("Edit", new { id = Model.Survey.Id })">To Survey</a>
+                        </div>
+                        <div class="col-4">
+                            <a class="btn btn-success form-control" href="@Url.Action("Index")">To List</a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+
+</div>

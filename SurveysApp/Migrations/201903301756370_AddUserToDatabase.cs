@@ -20,12 +20,12 @@ namespace SurveysApp.Migrations
                         Role = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
-            
+
         }
         
         public override void Down()
         {
-            DropTable("dbo.Users");
+            DropIndex("dbo.Users", new[] { "Email" });
         }
     }
 }

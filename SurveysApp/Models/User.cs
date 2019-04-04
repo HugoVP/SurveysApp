@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 
 namespace SurveysApp.Models
 {
@@ -23,6 +25,8 @@ namespace SurveysApp.Models
 
         [Required]
         [DataType(DataType.EmailAddress)]
+        [StringLength(255)]
+        [Index(IsUnique=true)]
         public string Email { get; set; }
 
         [Required]

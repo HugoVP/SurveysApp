@@ -1,0 +1,89 @@
+﻿@model SurveysApp.Forms.SurveyAndAnswerListViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+    var index = 0;
+
+}
+<br />
+<h2 class="text-info">Edit Survey</h2>
+<br />
+
+
+<div class="backgroundWhite border">
+    <div class="form-group row">
+        <div class="col-2 text-right">
+            @Html.LabelFor(m => m.Survey.Name)
+        </div>
+        <div class="col-5">
+            @Html.EditorFor(m => m.Survey.Name, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <div class="col-2 text-right">
+            @Html.LabelFor(m => m.Survey.CategoryId)
+        </div>
+        <div class="col-5">
+            @Html.EditorFor(m => m.Survey.Category.Name, new { htmlAttributes = new { @class = "form-control", disabled = true } })
+        </div>
+    </div>
+
+
+
+
+    <hr />
+
+    <div id="QuestionsContainer">
+
+
+        @foreach (var question in Model.Survey.Questions)
+        {
+
+            var answer = Model.AnswerList.FirstOrDefault(m => m.QuestionId == question.Id);
+
+            <div class="form-group row">
+                <div class="col-10 offset-2">
+                    
+
+                    <div class="row">
+
+                        <div class="col-12 text-left">
+                            @Html.Label($"AnswerList[{index}].Id", (index + 1) + " - " + question.Content)
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+
+                            @Html.Editor($"AnswerList[{index}].Body", new { htmlAttributes = new { Value = answer ==null ? "" : answer.Body, @class = "form-control", disabled=true } })
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+
+            index += 1;
+        }
+    </div>
+
+
+    <div class="form-group row">
+        <div class="col-5 offset-2">
+            <div class="row">
+                <div class="col-12">
+                    <a class="btn btn-success form-control" href="@Url.Action("Answered")">Back to list</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

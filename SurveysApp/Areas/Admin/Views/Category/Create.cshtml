@@ -7,21 +7,26 @@
 <br />
 <h2 class="text-info">Create New Category</h2>
 <br />
+@*@if (Model != null && Model.StatusMessage != null)*@
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    Html.RenderPartial("_StatusMessagePartial", TempData["StatusMessage"]);
+}
 
 
 @using (Html.BeginForm("Create", "Category", FormMethod.Post, new { @id = "CategoryForm", @class = "mt-4" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="backgroundWhite border">
         <div class="form-group row">
             <div class="col-2 text-right">
                 @Html.LabelFor(m => m.Name)
             </div>
             <div class="col-5">
-                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.EditorFor(m => m.Name, new { htmlAttributes = new { @class = "form-control", autofocus = true } })
             </div>
-            
+
             @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
         </div>
 

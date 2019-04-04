@@ -1,0 +1,106 @@
+﻿@model SurveysApp.Forms.SurveyAndAnswerListViewModel
+@{
+    ViewBag.Title = "Answering";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+
+
+    var index = 0;
+
+}
+<br />
+<h2 class="text-info">Edit Survey</h2>
+<br />
+
+
+@using (Html.BeginForm("Answering", "Survey", FormMethod.Post, new { @class = "mt-4" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Survey.CategoryId)
+    @Html.HiddenFor(m => m.Survey.AdminId, new { Value = 1 })
+    @Html.HiddenFor(m => m.Survey.Id)
+
+    <div class="backgroundWhite border">
+        <div class="form-group row">
+            <div class="col-2 text-right">
+                @Html.LabelFor(m => m.Survey.Name)
+            </div>
+            <div class="col-5">
+                @Html.EditorFor(m => m.Survey.Name, new { htmlAttributes = new { @class = "form-control", @readonly = true } })
+            </div>
+
+        </div>
+
+        <div class="form-group row">
+            <div class="col-2 text-right">
+                @Html.LabelFor(m => m.Survey.CategoryId)
+            </div>
+            <div class="col-5">
+                @Html.EditorFor(m => m.Survey.Category.Name, new { htmlAttributes = new { @class = "form-control", disabled = true } })
+            </div>
+        </div>
+
+
+
+
+        <hr />
+
+        <div id="QuestionsContainer">
+
+
+            @foreach (var question in Model.Survey.Questions)
+            {
+
+
+
+                <div class="form-group row">
+                    <div class="col-10 offset-2">
+                        @Html.Hidden($"AnswerList[{index}].UserId", 0)
+                        @Html.Hidden($"AnswerList[{index}].QuestionId", question.Id)
+
+                        <div class="row">
+
+                            <div class="col-12 text-left">
+                                @Html.Label($"AnswerList[{index}].Id", (index + 1) + " - " + question.Content)
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+
+                                @Html.Editor($"AnswerList[{index}].Body", new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessage($"AnswerList[{index}].Body", new {  @class = "text-danger"})
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+
+                index += 1;
+            }
+        </div>
+
+
+        <div class="form-group row">
+            <div class="col-5 offset-2">
+                <div class="row">
+                    <div class="col-6">
+                        <input type="submit" value="Answer" class="btn btn-info form-control" />
+                    </div>
+
+
+                    <div class="col-6">
+                        <a class="btn btn-success form-control" href="@Url.Action("Index")">Back to list</a>
+
+                    </div>
+                </div>
+                @*@{ Html.RenderPartial("_EditAndBackToListButton"); }*@
+            </div>
+        </div>
+    </div>
+}
+

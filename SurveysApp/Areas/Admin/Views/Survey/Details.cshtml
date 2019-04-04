@@ -1,0 +1,63 @@
+﻿
+@model IEnumerable<SurveysApp.Models.User>
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<br />
+
+
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">User List</h2>
+        </div>
+
+
+    </div>
+    <br />
+    <div>
+        @if (Model.Count() <= 0)
+        {
+            <p>No survey exists</p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Email)</th>
+                    <th>@Html.DisplayNameFor(m => m.FirstName)</th>
+                    
+                    <th>@Html.DisplayNameFor(m => m.LastName)</th>
+
+                    <th>@Html.DisplayNameFor(m => m.Gender)</th>
+
+
+                    <th class="text-center">Actions</th>
+                </tr>
+                @foreach (var item in Model.OrderBy(m => m.LastName).ToList())
+                {
+
+                <tr>
+                    <td>@Html.DisplayFor(m => item.Email)</td>
+                    <td>@Html.DisplayFor(m => item.FirstName)</td>
+
+                    <td>@Html.DisplayFor(m => item.LastName)</td>
+
+                    <td>@Html.DisplayFor(m => item.Gender)</td>
+
+                    <td style="width: 150px;" class="text-center">
+
+                        <a href="@Url.Action("Details", new { userId=item.Id})" class="btn btn-link">
+                            <i class="fa fa-edit"></i> Answers
+                        </a>
+                    </td>
+                </tr>
+                }
+            </table>
+        }
+    </div>
+</div>
+

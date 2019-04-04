@@ -1,0 +1,76 @@
+﻿@model IEnumerable<SurveysApp.Models.Survey>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<br />
+<br />
+
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    Html.RenderPartial("_StatusMessagePartial", TempData["StatusMessage"]);
+}
+
+<div class="border backgroundWhite">
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-info">Survey List</h2>
+        </div>
+        <div class="col-2 text-right">
+            @{ Html.RenderPartial("_CreateButtonPartial"); }
+        </div>
+    </div>
+    <br />
+    <div>
+        @if (Model.Count() <= 0)
+        {
+            <p>No survey exists</p>
+        }
+        else
+        {
+            <table class="table table-striped border">
+                <tr>
+                    <th>@Html.DisplayNameFor(m => m.Name)</th>
+                    <th>@Html.DisplayNameFor(m => m.CategoryId)</th>
+                    <th>@Html.DisplayNameFor(m => m.Status)</th>
+                    <th>@Html.DisplayNameFor(m => m.DischargeTime)</th>
+
+
+                    <th class="text-center">Actions</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(m => item.Name)</td>
+                        <td>@Html.DisplayFor(m => item.Category.Name)</td>
+                        <td>@Html.DisplayFor(m => item.Status)</td>
+                        <td>@Html.DisplayFor(m => item.DischargeTime)</td>
+
+                        <td style="width: 150px;">
+                            <div class="btn-group" role="group">
+
+                                <a class="btn btn-info text-white" href="@Url.Action("AddQuestion", new { @surveyId = item.Id })">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+
+                                <a class="btn btn-primary text-white" href="@Url.Action("Edit", new { @Id = item.Id })">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <a class="btn btn-success text-white" href="@Url.Action("Details", new { @Id = item.Id })">
+                                    <i class="fas fa-list-alt"></i>
+                                </a>
+
+                                <a class="btn btn-danger text-white" href="@Url.Action("Delete", new { @Id = item.Id })">
+                                    <i class="fas fa-trash-alt"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+</div>

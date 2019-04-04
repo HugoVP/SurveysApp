@@ -7,6 +7,10 @@
 <h2 class="text-info">Delete Category</h2>
 <br />
 
+@if (TempData.ContainsKey("StatusMessage"))
+{
+    Html.RenderPartial("_StatusMessagePartial", TempData["StatusMessage"]);
+}
 @using (Html.BeginForm("Delete", "Category", FormMethod.Post, new { @id = "CategoryForm", @class = "mt-4" }))
 {
     @Html.AntiForgeryToken()

@@ -31,6 +31,11 @@ namespace SurveysApp.Areas.Respondent.Controllers
 
         public ActionResult Register()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Survey", new { area = "Respondent" });
+            }
+
             return View();
         }
 
@@ -73,6 +78,11 @@ namespace SurveysApp.Areas.Respondent.Controllers
 
         public ActionResult Login()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Survey", new { area = "Respondent" });
+            }
+
             return View();
         }
 

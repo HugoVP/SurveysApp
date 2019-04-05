@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace SurveysApp.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class SurveyController : Controller
     {
         private readonly AppDbContext _db = new AppDbContext();
@@ -20,7 +20,7 @@ namespace SurveysApp.Areas.Admin.Controllers
         // GET: Admin/Survey
         public async Task<ActionResult> Index()
         {
-            var surveys = await _db.Survey.Include(m => m.Category).ToListAsync();
+            var surveys = await _db.Survey.Include(m => m.Category).Where(m=>m.Admin.Email==User.Identity.Name).ToListAsync();
 
             return View(surveys);
         }

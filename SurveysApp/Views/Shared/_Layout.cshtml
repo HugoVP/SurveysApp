@@ -9,25 +9,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <body>
-    @*<div class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                        <li>@Html.ActionLink("About", "About", "Home")</li>
-                        <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    </ul>
-                </div>
-            </div>
-        </div>*@
+
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
@@ -39,51 +21,55 @@
                 </button>
 
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
-                    <ul class="navbar-nav">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
-                                    @User.Identity.Name
-                                </a>
-                            </li>
+                            <ul class="navbar-nav">
+                            
+                                <li class="nav-item">
+                                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">
+                                        @User.Identity.Name
+                                    </a>
+                                </li>
 
-                            <li class="nav-item">
-                                @*<form action="/Authentication/Authentication/"*@
-                                @using (Html.BeginForm("Logout", "Authentication", new { area = "Respondent" }, FormMethod.Post, new { @class = "form-inline" }))
-                                {
-                                    @Html.AntiForgeryToken()
-                                    <button class="btn btn-link nav-link" type="submit">Logout</button>
-                                }
+                                <li class="nav-item">
+                                    @using (Html.BeginForm("Logout", "Authentication", new { area = "Respondent" }, FormMethod.Post, new { @class = "form-inline" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-link nav-link" type="submit">Logout</button>
+                                    }
 
-                            </li>
+                                </li>
+                            </ul>
+
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item dropdown text-white-50">
+                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
+                                        Content management
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
+                                        @Html.ActionLink("Answer Surveys", "Index", "Survey", new { area = "Respondent" }, new { @class = "dropdown-item" })
+                                        @Html.ActionLink("Answered Surveys", "Answered", "Survey", new { area = "Respondent" }, new { @class = "dropdown-item" })
+                                        @Html.ActionLink("Manage Surveys", "Index", "Survey", new { area = "Admin" }, new { @class = "dropdown-item" })
+                                        @Html.ActionLink("Manage Survey Categories", "Index", "Category", new { area = "Admin" }, new { @class = "dropdown-item" })
+                                    </div>
+                                </li>
+                        
+                            </ul>
                         }
                         else
                         {
 
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Register", "Authentication", new { area = "Respondent" })">Register</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="@Url.Action("Login", "Authentication", new { area = "Respondent" })">Login</a>
-                            </li>
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Register", "Authentication", new { area = "Respondent" })">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="@Url.Action("Login", "Authentication", new { area = "Respondent" })">Login</a>
+                                </li>
+                            </ul>
                         }
-                    </ul>
 
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown text-white-50">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropDownMenuLink" role="button" aria-haspopup="true" data-toggle="dropdown" aria-expanded="false">
-                                Content management
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropDownMenuLink">
-                                @Html.ActionLink("Answer Surveys", "Index", "Survey", new { area = "Respondent" }, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Answered Surveys", "Answered", "Survey", new { area = "Respondent" }, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Manage Surveys", "Index", "Survey", new { area = "Admin" }, new { @class = "dropdown-item" })
-                                @Html.ActionLink("Manage Survey Categories", "Index", "Category", new { area = "Admin" }, new { @class = "dropdown-item" })
-                            </div>
-                        </li>
-                        
-                    </ul>
+                    
                 </div>
             </div>
         </nav>

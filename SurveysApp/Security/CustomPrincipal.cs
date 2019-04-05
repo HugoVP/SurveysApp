@@ -21,7 +21,7 @@ namespace SurveysApp.Security
 
         public bool IsInRole(string role)
         {
-            // return Roles.IsUserInRole(User.Username, role);
+            //return Roles.IsUserInRole(User.Email, role);
             return true;
         }
     }
